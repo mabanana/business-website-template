@@ -25,15 +25,20 @@ document.addEventListener("DOMContentLoaded", () => {
   if (servicesList) {
     servicesList.innerHTML = "";
     businessData.servicesList.forEach((service) => {
-      const li = document.createElement("li");
-      li.textContent = service;
-      servicesList.appendChild(li);
+      servicesList.insertAdjacentHTML("beforeend", serviceCardHtml);
+      const currentCard = servicesList.lastElementChild;
+      const title = currentCard.querySelector("#service-title");
+      const description = currentCard.querySelector("#service-description");
+      if (title && description) {
+        title.textContent = service.title;
+        description.textContent = service.description;
+      }
     });
   }
-
-  setText("site-title", businessData.siteTitle);
+  console.log("setting text content");
+  setText("page-title", businessData.siteTitle);
   setText("business-name", businessData.businessName);
-  setText("business-tagline", businessData.tagline);
+  setText("tagline", businessData.tagline);
   setText("about-text", businessData.aboutText);
   setText("contact-address", businessData.contactInfo.address);
   setText("contact-phone", businessData.contactInfo.phone);
@@ -53,3 +58,16 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     });
   });
 });
+
+const serviceCardHtml = `
+<div class="services-hover flex flex-col bg-white border border-gray-200 shadow-2xs rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70 py-4">
+  <div class="p-4 md:p-5">
+    <h3 id="service-title" class="text-lg font-bold text-gray-800 dark:text-white">
+      Card title
+    </h3>
+    <p id="service-description" class="mt-1 text-gray-500 dark:text-neutral-400">
+      Some quick example text to build on the card title and make up the bulk of the card's content.
+    </p>
+  </div>
+</div>
+`;
